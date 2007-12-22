@@ -5,7 +5,7 @@ use strict;
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.02';
+    $VERSION     = '0.03';
     @ISA         = qw(Exporter);
     @EXPORT      = qw();
     @EXPORT_OK   = qw(&errstr);
@@ -234,7 +234,7 @@ sub pageRef { my $self = shift;
 	my $buf;
 
 	# open a tcp socket to the modem
-	socket(my $socket, PF_INET, SOCK_STREAM, getprotobyname('tcp'));
+	socket(MODEM, PF_INET, SOCK_STREAM, getprotobyname('tcp'));
 
 	# connect with timeout
 	my $timeout_failed = 1;
@@ -243,7 +243,7 @@ sub pageRef { my $self = shift;
 		local $SIG{ALRM} = sub { die "alarm\n" };
 		# modem response should be quick!
 		alarm 1; # 1 second
-		connect($socket, sockaddr_in(80, inet_aton($modem_ip)))
+		connect(MODEM, sockaddr_in(80, inet_aton($modem_ip)))
 			or $errfatal++;
 		alarm 0;
 		$errstr = "Couldn't connect to $modem_ip:80 : $!"
@@ -257,7 +257,7 @@ sub pageRef { my $self = shift;
 
 	# connect timeout
 	if ($timeout_failed) {
-		close($socket);
+		close(MODEM);
 		$errfatal++;
 		$errstr = "Couldn't connect to $modem_ip:80 : Socket Timeout";
 		return undef;
@@ -265,14 +265,14 @@ sub pageRef { my $self = shift;
 
 
 	# enable command buffering (autoflush)
-	select((select($socket), $| = 1)[0]);
+	select((select(MODEM), $| = 1)[0]);
 
 	# send the page request with timeout
 	$timeout_failed = 1;
 	eval {
 		local $SIG{ALRM} = sub { die "alarm\n" };
 		alarm 1; # 1 second
-		print $socket join("\015\012",
+		print MODEM join("\015\012",
 							"GET $path HTTP/1.0",
 #							"GET $path HTTP/1.1",
 							"Host: $modem_ip",
@@ -285,7 +285,7 @@ sub pageRef { my $self = shift;
 	};
 	alarm 0; # prevent race condition
 	if ($timeout_failed) {
-		close($socket);
+		close(MODEM);
 		$errstr = "Couldn't send to $modem_ip:80 : Socket Timeout";
 		return undef;
 	}
@@ -298,13 +298,13 @@ sub pageRef { my $self = shift;
 		# set a signal to die if the timeout is reached
 		local $SIG{ALRM} = sub { die "alarm\n" };
 		alarm 1; # 1 second
-		$buf = <$socket>;
+		$buf = <MODEM>;
 		alarm 0;
 		$timeout_failed = 0;
 	};
 	alarm 0; # prevent race condition
 	if ($timeout_failed) {
-		close($socket);
+		close(MODEM);
 		$errstr = "Couldn't get from $modem_ip:80 : Socket Timeout";
 		return undef;
 	}
