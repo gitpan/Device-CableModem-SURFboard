@@ -1,8 +1,8 @@
 NAME
-    Device::CableModem::Surfboard - Get info from a Motorola 'SURFboard'
+    Device::CableModem::SURFboard - Get info from a Motorola 'SURFboard'
 
 SYNOPSYS
-        use Device::CableModem::Surfboard;
+        use Device::CableModem::SURFboard;
         my $modem = Device::CableModem::SURFboard->new
             or die Device::CableModem::SURFboard->errstr;
 
@@ -22,10 +22,10 @@ DESCRIPTION
     connection problems, or monitoring the health of the modem or cable
     connection.
 
-    "Device::CableModem::Surfboard" connects to several different models of
-    'SURFboard' modems (currently confirmed: SB4200, SB5100, SB5100E,
-    SB5101, SBV5120E), scraping the status page for the most useful
-    information regarding cable line condition.
+    "Device::CableModem::SURFboard" connects to several different models of
+    'SURFboard' modems (currently confirmed: SB4100, SB4200, SB5100,
+    SB5100E, SB5101, SBV5120E), scraping the status page for the most
+    useful information regarding cable line condition.
 
   CREATING A NEW MODEM OBJECT
         $modem = Device::CableModem::SURFboard->new();
@@ -128,7 +128,7 @@ METHODS
 
 SUPPORT
     This script was developed and tested on a Motorla SURFboard cable modem.
-    (Models: SB4200, SB5100, SB5100E, SB5101, SBV5120E).
+    (Models: SB4100, SB4200, SB5100, SB5100E, SB5101, SBV5120E).
 
     It may work on other Motorla modems, but likely will not. If you have a
     different cable modem that works, or you would like to have work, please

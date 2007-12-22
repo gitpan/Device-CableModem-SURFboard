@@ -5,7 +5,7 @@ use strict;
 BEGIN {
     use Exporter ();
     use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-    $VERSION     = '0.03';
+    $VERSION     = '0.04';
     @ISA         = qw(Exporter);
     @EXPORT      = qw();
     @EXPORT_OK   = qw(&errstr);
@@ -333,11 +333,11 @@ sub pageRef { my $self = shift;
 
 =head1 NAME
 
-Device::CableModem::Surfboard - Get info from a Motorola 'SURFboard'
+Device::CableModem::SURFboard - Get info from a Motorola 'SURFboard'
 
 =head1 SYNOPSYS
 
-    use Device::CableModem::Surfboard;
+    use Device::CableModem::SURFboard;
     my $modem = Device::CableModem::SURFboard->new
         or die Device::CableModem::SURFboard->errstr;
 
@@ -358,7 +358,7 @@ levels.  These values can be used to aid in trouble shooting modem
 connection problems, or monitoring the health of the modem or cable
 connection.
 
-C<Device::CableModem::Surfboard> connects to several different models
+C<Device::CableModem::SURFboard> connects to several different models
 of 'SURFboard' modems (currently confirmed: SB4100, SB4200, SB5100,
 SB5100E, SB5101, SBV5120E), scraping the status page for the most
 useful information regarding cable line condition.

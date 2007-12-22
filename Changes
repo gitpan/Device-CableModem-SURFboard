@@ -1,5 +1,8 @@
 Revision history for Perl module Device::CableModem::SURFboard
 
+0.04 Sat Dec 22 12:49:44 2007
+    - Corrected module capitalization in documentation
+
 0.03 Sat Dec 22 12:05:33 2007
     - Replaced lexical reference in socket for Perl < 5.6 compat
 
